@@ -28,6 +28,12 @@ export default [
         routes: [
 
         {
+            path: '/',
+            name: '用户管理',
+            exact: true,
+            component: WorkPlace,
+        },
+        {
             path: '/workplace',
             name: '用户管理',
             exact: true,

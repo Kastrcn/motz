@@ -11,11 +11,13 @@
     "@ant-design/pro-form": "^1.27.1",
     "@ant-design/pro-layout": "^6.19.3",
     "@ant-design/pro-table": "^2.39.2",
+    "@reduxjs/toolkit": "^1.5.1",
     "antd": "^4.16.1",
     "less": "^2.7.3",
     "moment": "^2.29.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
+    "react-redux": "^7.2.4",
     "react-router-config": "^5.1.1",
     "react-router-dom": "^5.2.0",
     "wangeditor": "^4.7.2"

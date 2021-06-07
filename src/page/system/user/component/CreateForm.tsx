@@ -14,7 +14,7 @@ const CreateForm: React.FunctionComponent<ICreateFormProps> = (props) => {
   title="用户增加"
   visible={modalVisible}
   onCancel={() => onCancel()}
-  footer={null}
+  width={960}
 >
   {props.children}
 </Modal>;
