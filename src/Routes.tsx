@@ -14,6 +14,7 @@ import Config from "./page/system/config";
 import SMS from "./page/system/sms";
 import File from "./page/system/file";
 import Dict from "./page/system/dict";
+import WorkPlace from "./page/system/workplace";
 
 export default [
     {
@@ -25,6 +26,13 @@ export default [
         path: "/",
         component: Layout,
         routes: [
+
+        {
+            path: '/workplace',
+            name: '用户管理',
+            exact: true,
+            component: WorkPlace,
+        },
         {
             path: '/sys/mgr_user',
             name: '用户管理',
@@ -81,7 +89,7 @@ export default [
             component: Timers,
         },
         {
-            path: '/test',
+            path: '/monitor/machine',
             name: '用户管理',
             exact: true,
             component: Machine,
