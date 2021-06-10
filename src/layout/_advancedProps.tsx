@@ -3,21 +3,21 @@ import { StrikethroughOutlined, SlidersOutlined, SwitcherOutlined, PicLeftOutlin
 
 export default {
     route: {
-        path: '/',
+        path: '/pay_manage',
         routes: [
             {
-                path: '/',
+                path: '/pay_manage',
                 name: '支付管理',
                 icon: <StrikethroughOutlined />,
                 component: './Welcome',
                 routes: [
                     {
-                        path: '/pay/index',
+                        path: '/pay/alipay/index',
                         name: '支付体验',
                         component: './Welcome',
                     },
                     {
-                        path: '/alipay/index',
+                        path: '/pay/index',
                         name: '支付订单',
                         component: './Welcome',
                     },
@@ -28,24 +28,24 @@ export default {
                 icon: <PicLeftOutlined />,
                 component: './Welcome',
             }, {
-                path: '/databaseInfo',
+                path: '/database',
                 name: '多数据源',
                 icon: <SlidersOutlined />,
                 routes: [
                     {
-                        path: '/auth/app',
+                        path: '/databaseInfo',
                         name: '数据源管理',
                         component: './Welcome',
                     },
 
                 ]
             }, {
-                path: '/tenantInfo',
+                path: '/tenant',
                 name: 'SaaS租户',
                 icon: <SwitcherOutlined />,
                 routes: [
                     {
-                        path: '/tools/config',
+                        path: '/tenantInfo',
                         name: '租户管理',
                         component: './Welcome',
                     },
