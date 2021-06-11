@@ -120,8 +120,8 @@ const Org: React.FunctionComponent<IOrgProps> = (props) => {
                     // }
                 }}
                 
-                form={{ layout: 'horizontal', labelCol: { span: 5 }, wrapperCol: { span: 15 }, }}
-                rowKey="key"
+                form={{ layout: 'horizontal', labelCol: { span: 5 }, wrapperCol: { span: 15 }, submitter:{render:false}}}
+               rowKey="key"
                 type="form"
                 columns={columns}
             />

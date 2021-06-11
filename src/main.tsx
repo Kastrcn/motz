@@ -1,17 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import store from './store'
+import configureStore, { history } from './configureStore'
 import App from './App'
 import 'antd/dist/antd.css'
+const store = configureStore()
+
 
 ReactDOM.render(
-  <Provider store={store}>
   <React.StrictMode>
-    
-    <App  />
+    <Provider store={store}>
+      <App history={history}/>
+    </Provider>
   </React.StrictMode>
-  </Provider>
   ,
   document.getElementById('root')
 )

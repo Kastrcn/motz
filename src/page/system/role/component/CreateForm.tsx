@@ -4,16 +4,18 @@ import * as React from 'react';
 interface ICreateFormProps {
   modalVisible: boolean;
   onCancel: () => void;
+  onOk: () => void;
 }
 
 const CreateForm: React.FunctionComponent<ICreateFormProps> = (props) => {
-  const { modalVisible, onCancel } = props;
+  const { modalVisible,onOk, onCancel } = props;
 
   return   <Modal
   destroyOnClose
-  title="新增职位"
+  title="新增角色"
   visible={modalVisible}
   onCancel={() => onCancel()}
+  onOk={() => onOk()}
   width={900}
   // footer={null}
 >

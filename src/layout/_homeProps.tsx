@@ -44,47 +44,41 @@ export default {
                     },
                 ]
             }, {
-                path: '/sys',
+                path: '/sys_flw_office',
                 name: '在线办公',
                 icon: <LaptopOutlined />,
-                component: './Welcome',
                 routes: [
                     {
-                        path: '/sys/mgr_user',
+                        path: '/task',
                         name: '我的任务',
-                        component: './system/user',
                         routes:[
                             {
-                                path: '/sys/mgr_user',
+                                path: '/todoTask',
                                 name: '代办任务',
                                 component: './system/user',
                             },
                             {
-                                path: '/sys/org',
+                                path: '/doneTask',
                                 name: '已办任务',
                                 component: './Welcome',
                             },
                         ]
                     },
                     {
-                        path: '/sys/org',
+                        path: '/apply',
                         name: '我的申请',
-                        component: './Welcome',
                         routes:[
                             {
-                                path: '/sys/mgr_user',
+                                path: '/drafapply',
                                 name: '起草申请',
-                                component: './system/user',
                             },
                             {
-                                path: '/sys/org',
+                                path: '/draft',
                                 name: '申请草稿',
-                                component: './Welcome',
                             },
                             {
-                                path: '/sys/org',
+                                path: '/applyed',
                                 name: '已发申请',
-                                component: './Welcome',
                             },
                         ]
                     },

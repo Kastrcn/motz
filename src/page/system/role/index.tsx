@@ -1,11 +1,12 @@
-import { Button, Col, Divider, Dropdown, Menu, Popconfirm, Row, Switch, Tree } from 'antd';
+import { Button, Col, Divider, Dropdown, FormInstance, Menu, Popconfirm, Row, Switch, Tree } from 'antd';
 import { PlusOutlined } from '@ant-design/icons'
 import * as React from 'react';
 import ProCard from '@ant-design/pro-card';
 import ProTable, { ProColumns } from '@ant-design/pro-table';
 import { PageContainer } from '@ant-design/pro-layout';
 import CreateForm from './component/CreateForm';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import UpdateForm from './component/UpdateForm';
 
 interface IRoleProps {
 }
@@ -15,8 +16,11 @@ const treeData: any = [{ "id": "1265476890651701250", "parentId": "0", "title": 
 const Role: React.FunctionComponent<IRoleProps> = (props) => {
     const [createModalVisible, handleModalVisible] = useState<boolean>(false);
     const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
+    const createFormRef = useRef<FormInstance>()
+    const updateFormRef = useRef<FormInstance>()
+    const [row, setRow] = useState({})
 
-    
+
     const columns: ProColumns<any>[] = [
         {
             title: '角色名',
@@ -37,33 +41,55 @@ const Role: React.FunctionComponent<IRoleProps> = (props) => {
             dataIndex: 'sort',
             hideInSearch: true
         },
-        
+
         {
             title: '备注',
             dataIndex: 'remark',
-            valueType:'textarea',
-            hideInTable:true,
+            valueType: 'textarea',
+            hideInTable: true,
             hideInSearch: true
         },
-        
+
         {
             title: '操作',
             dataIndex: 'index',
             width: 120,
             hideInSearch: true,
-            hideInForm:true,
+            hideInForm: true,
             render: (dom, record) => [
-                <a key="editable">
+                <a key="editable" onClick={() => {
+                    setRow(record);
+                    handleUpdateModalVisible(true);
+                }}>
                     编辑
               </a>,
-                 <Divider type="vertical" />,
-                 <Popconfirm
-                 title="确认删除？"
-             >
-                <a key="editable">
-                删除
+                <a key="editable" onClick={() => {
+                    setRow(record);
+                    handleUpdateModalVisible(true);
+                }}>
+                    更多
+              </a>,
+                <a key="editable" onClick={() => {
+                    setRow(record);
+                    handleUpdateModalVisible(true);
+                }}>
+                    授权菜单
+              </a>,
+                <a key="editable" onClick={() => {
+                    setRow(record);
+                    handleUpdateModalVisible(true);
+                }}>
+                    授权数据
+              </a>,
+                <Divider type="vertical" />,
+                <Popconfirm
+                    title="确认删除？" 
+                    onConfirm={()=>console.log(record)}
+                >
+                    <a key="editable">
+                        删除
               </a>
-             </Popconfirm>
+                </Popconfirm>
 
             ],
         },
@@ -72,30 +98,40 @@ const Role: React.FunctionComponent<IRoleProps> = (props) => {
         title={false}
     >
         <ProTable
-                    size="large"
-                    columns={columns}
-                    options={false}
-                    dataSource={[{"createTime":"2020-03-26 19:28:54.000","createRole":"1265476890672672808","updateTime":"2020-06-02 21:01:04.000","updateRole":"1265476890672672808","id":"1265476890672672787","name":"总经理","code":"zjl","sort":100,"remark":"总经理职位","status":0},{"createTime":"2020-03-26 19:29:57.000","createRole":"1265476890672672808","updateTime":null,"updateRole":null,"id":"1265476890672672788","name":"副总经理","code":"fzjl","sort":100,"remark":"副总经理职位","status":0},{"createTime":"2020-03-26 19:31:49.000","createRole":"1265476890672672808","updateTime":null,"updateRole":null,"id":"1265476890672672789","name":"部门经理","code":"bmjl","sort":100,"remark":"部门经理职位","status":0},{"createTime":"2020-05-27 11:32:00.000","createRole":"1265476890672672808","updateTime":"2020-06-01 10:51:35.000","updateRole":"1265476890672672808","id":"1265476890672672790","name":"工作人员","code":"gzry","sort":100,"remark":"工作人员职位","status":0}]}
-                    toolBarRender={() => [<Button key="button" icon={<PlusOutlined />} type="primary" onClick={()=>handleModalVisible(true)}>新建职位</Button>]}
-                />
-                 <CreateForm onCancel={() => handleModalVisible(false)} modalVisible={createModalVisible}>
+            size="large"
+            columns={columns}
+            options={false}
+            dataSource={[{ "createTime": "2020-03-26 19:28:54.000", "createRole": "1265476890672672808", "updateTime": "2020-06-02 21:01:04.000", "updateRole": "1265476890672672808", "id": "1265476890672672787", "name": "总经理", "code": "zjl", "sort": 100, "remark": "总经理职位", "status": 0 }, { "createTime": "2020-03-26 19:29:57.000", "createRole": "1265476890672672808", "updateTime": null, "updateRole": null, "id": "1265476890672672788", "name": "副总经理", "code": "fzjl", "sort": 100, "remark": "副总经理职位", "status": 0 }, { "createTime": "2020-03-26 19:31:49.000", "createRole": "1265476890672672808", "updateTime": null, "updateRole": null, "id": "1265476890672672789", "name": "部门经理", "code": "bmjl", "sort": 100, "remark": "部门经理职位", "status": 0 }, { "createTime": "2020-05-27 11:32:00.000", "createRole": "1265476890672672808", "updateTime": "2020-06-01 10:51:35.000", "updateRole": "1265476890672672808", "id": "1265476890672672790", "name": "工作人员", "code": "gzry", "sort": 100, "remark": "工作人员职位", "status": 0 }]}
+            toolBarRender={() => [<Button key="button" icon={<PlusOutlined />} type="primary"
+                onClick={() => handleModalVisible(true)}>新建角色</Button>]}
+        />
+        <CreateForm onCancel={() => handleModalVisible(false)} modalVisible={createModalVisible}
+            onOk={() => createFormRef.current?.submit()}
+        >
             <ProTable<any, any>
                 onSubmit={async (value) => {
-                    // const success = await handleAdd(value);
-                    // if (success) {
-                    //   handleModalVisible(false);
-                    //   if (actionRef.current) {
-                    //     actionRef.current.reload();
-                    //   }
-                    // }
+                    console.log(value)
                 }}
-
-                form={{ layout: 'horizontal', labelCol: { span: 5 }, wrapperCol: { span: 15 }, }}
+                formRef={createFormRef}
+                form={{ layout: 'horizontal', labelCol: { span: 5 }, wrapperCol: { span: 15 }, submitter: { render: false } }}
                 rowKey="key"
                 type="form"
                 columns={columns}
             />
         </CreateForm>
+        <UpdateForm onCancel={() => handleUpdateModalVisible(false)} modalVisible={updateModalVisible} onOk={() => updateFormRef.current?.submit()}>
+            <ProTable<any, any>
+                onSubmit={async (value) => {
+                    console.log(value)
+                }}
+
+                formRef={updateFormRef}
+                form={{ layout: 'horizontal', labelCol: { span: 5 }, wrapperCol: { span: 15 }, submitter: { render: false }, initialValues: row }}
+                rowKey="key"
+                type="form"
+                columns={columns}
+            />
+        </UpdateForm>
     </PageContainer>
 };
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Avatar, Dropdown, Menu } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { Avatar, Dropdown, Menu, message, Tooltip } from 'antd';
+import { UserOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { renderRoutes } from "react-router-config";
 import { ProSettings, SettingDrawer } from '@ant-design/pro-layout';
 import ProLayout, { PageContainer } from '@ant-design/pro-layout';
@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Link, Route, useHistory } from 'react-router-dom'
 import { logout } from '../features/user/userSlice';
 import Authorized from '../component/Authorized';
+import { Action, ActionDiv } from './style';
 const menu = [defaultProps, homeProps, advancedProps];
 
 export default (props: any) => {
@@ -18,6 +19,12 @@ export default (props: any) => {
   const [pathname, setPathname] = useState('/welcome');
   const dispatch = useDispatch();
   const [menuIndex, setMenuIndex] = useState<number>(0)
+  const changeMenu = (index: number) => {
+
+    const hide = message.loading('正在切换应用..', 0);
+    setMenuIndex(index);
+    setTimeout(hide, 0);
+  }
   return (
     <Authorized>
       <div
@@ -77,60 +84,74 @@ export default (props: any) => {
           )}
 
           headerContentRender={() => <Menu mode="horizontal" defaultActiveFirst>
-            <Menu.Item key="mail"  onClick={() => setMenuIndex(0)}>
+            <Menu.Item key="mail" onClick={() => changeMenu(0)}>
               系统应用
           </Menu.Item>
-            <Menu.Item key="app" onClick={() => setMenuIndex(1)}>
+            <Menu.Item key="app" onClick={() => changeMenu(1)}>
               在线办公
           </Menu.Item>
 
-            <Menu.Item key="alipay" onClick={() => setMenuIndex(2)}>
+            <Menu.Item key="alipay" onClick={() => changeMenu(2)}>
               高级体验
           </Menu.Item>
           </Menu>}
           rightContentRender={() => (
 
-            <div>
-              <Dropdown overlay={<Menu className="umi-plugin-layout-menu">
-                <Menu.Item
-                  key="logout"
-                  onClick={() => { dispatch(logout()) }
-
-                  }
+            <>
+              <Tooltip title="使用文档">
+                <Action
+                  style={{
+                    color: 'inherit',
+                  }}
+                  target="_blank"
+                  href="https://pro.ant.design/docs/getting-started"
+                  rel="noopener noreferrer"
                 >
-                  {/* <LogoutOutlined /> */}
+                  <QuestionCircleOutlined />
+                </Action>
+              </Tooltip>
+
+              <ActionDiv>
+                <Dropdown overlay={<Menu className="umi-plugin-layout-menu">
+                  <Menu.Item
+                    key="logout"
+                    onClick={() => { dispatch(logout()) }
+
+                    }
+                  >
+                    {/* <LogoutOutlined /> */}
           个人中心
         </Menu.Item>  <Menu.Item
-                  key="logout"
-                  onClick={() => { dispatch(logout()) }
+                    key="logout"
+                    onClick={() => { dispatch(logout()) }
 
-                  }
-                >
-                  {/* <LogoutOutlined /> */}
+                    }
+                  >
+                    {/* <LogoutOutlined /> */}
           设置
         </Menu.Item>  <Menu.Item
-                  key="logout"
-                  onClick={() => { dispatch(logout()) }
+                    key="logout"
+                    onClick={() => { dispatch(logout()) }
 
-                  }
-                >
-                  {/* <LogoutOutlined /> */}
+                    }
+                  >
+                    {/* <LogoutOutlined /> */}
           退出登录
         </Menu.Item>
-              </Menu>}>
-                <span className="umi-plugin-layout-action">
-                  <Avatar
-                    size="small"
-                    className="umi-plugin-layout-avatar"
-                    src={'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png'}
-                    alt="avatar"
-                  />
-                  <span className="umi-plugin-layout-name">
-                    admin </span>
-                </span>
-              </Dropdown>
-
-            </div>
+                </Menu>}>
+                  <span className="umi-plugin-layout-action">
+                    <Avatar
+                      size="small"
+                      className="umi-plugin-layout-avatar"
+                      src={'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png'}
+                      alt="avatar"
+                    />
+                    <span className="umi-plugin-layout-name">
+                      admin </span>
+                  </span>
+                </Dropdown>
+              </ActionDiv>
+            </>
           )}
           {...settings}
         >

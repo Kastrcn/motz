@@ -394,7 +394,8 @@ const User: React.FunctionComponent<IUserProps> = (props) => {
                     //   }
                     // }
                 }}
-
+                form={{ layout: 'horizontal', labelCol: { span: 5 }, wrapperCol: { span: 15 }, submitter:{render:false}}}
+              
                 rowKey="key"
                 type="form"
                 columns={columns}

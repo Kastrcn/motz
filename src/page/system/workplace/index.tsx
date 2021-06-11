@@ -254,7 +254,7 @@
 
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { decrement, increment } from '../../../features/counter/counterSlice'
+import { decrement, login } from '../../../features/counter/counterSlice'
 interface IWorkPlaceProps {
 }
 
@@ -266,7 +266,8 @@ const WorkPlace: React.FunctionComponent<IWorkPlaceProps> = (props) => {
     <div>
       <button
         aria-label="Increment value"
-        onClick={() => dispatch(increment())}
+        onClick={() => {
+        }}
       >
         Increment
     </button>

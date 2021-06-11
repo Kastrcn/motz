@@ -4,10 +4,12 @@ import * as React from 'react';
 interface ICreateFormProps {
   modalVisible: boolean;
   onCancel: () => void;
+  onOk: () => void;
+  
 }
 
 const CreateForm: React.FunctionComponent<ICreateFormProps> = (props) => {
-  const { modalVisible, onCancel } = props;
+  const { modalVisible, onOk,onCancel } = props;
 
   return   <Modal
   destroyOnClose
@@ -15,6 +17,7 @@ const CreateForm: React.FunctionComponent<ICreateFormProps> = (props) => {
   visible={modalVisible}
   onCancel={() => onCancel()}
   width={900}
+  onOk={() => onOk()}
   // footer={null}
 >
   {props.children}

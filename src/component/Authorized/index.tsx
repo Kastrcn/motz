@@ -26,7 +26,7 @@ const Authorized: React.FunctionComponent<IAuthorizedProps> = (props) => {
   if (status === false) {
     let s = localStorage.getItem("status");
     if (s === "1") {
-      dispatch(login());
+      // dispatch(login());
     } else {
       history.push("/login");
     }

@@ -4,20 +4,16 @@ import {
   BrowserRouter
 } from "react-router-dom";
 import { renderRoutes } from "react-router-config";
-import routes from "./Routes";
+import routes from "./routes";
+import { ConnectedRouter } from 'connected-react-router';
 
-export default function App(props: any) {
+
+export default function App({history}: any) {
   return (
     <BrowserRouter>
-        {renderRoutes(routes)}
-    </BrowserRouter>
+        <ConnectedRouter history={history}> { /* place ConnectedRouter under Provider */}
+          {renderRoutes(routes)}
+        </ConnectedRouter>
+      </BrowserRouter>
   );
-}
-
-function About() {
-  return <h2>About</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
 }
