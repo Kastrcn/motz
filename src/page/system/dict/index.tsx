@@ -22,7 +22,7 @@ const Dict: React.FunctionComponent<IDictProps> = (props) => {
     const [dictManageVisible, handleDictManageVisible] = useState<boolean>(false)
     const actionRef = useRef<ActionType>();
 
-    const [row, setRow] = useState({});
+    const [row, setRow] = useState<any>({});
     const createFormRef = useRef<FormInstance>()
     const updateFormRef = useRef<FormInstance>()
 

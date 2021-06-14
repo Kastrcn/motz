@@ -16,7 +16,7 @@ interface ICreateFormProps {
 const CreateForm: React.FunctionComponent<ICreateFormProps> = (props) => {
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
-  const [row, setRow] = useState({})
+  const [row, setRow] = useState<any>({})
   const createFormRef = useRef<FormInstance>()
   const updateFormRef = useRef<FormInstance>()
   const actionRef = useRef<ActionType>();
