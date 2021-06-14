@@ -27,6 +27,7 @@ import Applyed from "../page/flowable/applyed";
 import Draft from "../page/flowable/draft";
 import Drafapply from "../page/flowable/drafapply";
 import Alipay from "../page/pay/alipay";
+import Swagger from "../page/system/swagger";
 
 export default [
     {
@@ -202,6 +203,13 @@ export default [
                 name: '字典管理',
                 exact: true,
                 component: Dict,
+            },
+
+            {
+                path: '/tools/swagger',
+                name: 'swagger',
+                exact: true,
+                component: Swagger,
             },
 
             {

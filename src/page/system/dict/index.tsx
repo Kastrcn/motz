@@ -1,15 +1,14 @@
-import { Breadcrumb, Button, Col, Divider, Dropdown, FormInstance, Menu, PageHeaderProps, Popconfirm, Row, Switch, Tag, Tree } from 'antd';
+import { Button, Divider, Dropdown, FormInstance, Menu, message, Popconfirm } from 'antd';
 import { PlusOutlined } from '@ant-design/icons'
 import * as React from 'react';
-import ProCard from '@ant-design/pro-card';
-import ProTable, { ProColumns } from '@ant-design/pro-table';
+import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import { PageContainer } from '@ant-design/pro-layout';
-import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useRef, useState } from 'react';
 import CreateForm from './component/CreateForm';
 import DictManageForm from './component/DictManageForm';
 import UpdateForm from './component/DictManageUpdateForm';
 import { DownOutlined } from '@ant-design/icons';
+import { add, getPageList, del, update } from './api';
 
 interface IDictProps {
 }
@@ -21,13 +20,13 @@ const Dict: React.FunctionComponent<IDictProps> = (props) => {
     const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
 
     const [dictManageVisible, handleDictManageVisible] = useState<boolean>(false)
+    const actionRef = useRef<ActionType>();
+
     const [row, setRow] = useState({});
     const createFormRef = useRef<FormInstance>()
     const updateFormRef = useRef<FormInstance>()
 
-    const onSelect = (selectedKeys: React.Key[], info: any) => {
-        console.log('selected', selectedKeys, info);
-    };
+
     const columns: ProColumns<any>[] = [
         {
             title: '序号',
@@ -55,6 +54,8 @@ const Dict: React.FunctionComponent<IDictProps> = (props) => {
         {
             title: '排序',
             dataIndex: 'sort',
+            valueType: 'digit',
+            initialValue: 100,
             hideInSearch: true
         },
         {
@@ -67,13 +68,10 @@ const Dict: React.FunctionComponent<IDictProps> = (props) => {
             title: '状态',
             dataIndex: 'status',
             hideInForm: true,
-            render: (dom, record) => {
-                if (record.status === 0) {
-                    return "正常"
-                } if (record.status === 1) {
-                    return "错误"
-                }
-                return "未知"
+            valueType: 'select',
+            valueEnum: {
+                1: '启用',
+                0: '停用'
             }
         },
 
@@ -84,25 +82,28 @@ const Dict: React.FunctionComponent<IDictProps> = (props) => {
             hideInSearch: true,
             hideInForm: true,
             render: (dom, record) => [
-                <a key="editable" onClick={() => handleDictManageVisible(true)}>
+                <a key="editable" onClick={() => {
+                    handleDictManageVisible(true)
+                    setRow(record);
+                }}>
                     字典
-              </a>,
+                </a>,
                 <Divider type="vertical" />,
                 <Dropdown overlay={<Menu>
                     <Menu.Item>
-                        <a key='editable' onClick={() => {
+                        <span key='editable' onClick={() => {
                             handleUpdateModalVisible(true);
                             setRow(record);
-
+                            console.log(record)
                         }}>
                             修改
-                      </a>
+                        </span>
                     </Menu.Item>
                     <Menu.Item>
-                        <Popconfirm title="确认删除？" onConfirm={() => console.log(record)}>
-                            <a key="delable" >
+                        <Popconfirm title="确认删除？" onConfirm={() => deleteById(record)}>
+                            <span key="delable" >
                                 删除
-                      </a>
+                            </span>
                         </Popconfirm>
 
                     </Menu.Item>
@@ -118,31 +119,58 @@ const Dict: React.FunctionComponent<IDictProps> = (props) => {
 
 
     ];
+
+    const deleteById = async (record: any) => {
+        const { data } = await del({ id: record.id });
+        if (data.success) {
+            message.success("删除成功")
+            if (actionRef.current) {
+                actionRef.current.reload();
+            }
+        } else {
+            message.error("删除成功")
+        }
+    }
     return <PageContainer
         title={false}
-        breadcrumbRender={(props: any) => {
-            return <Breadcrumb>
-                <Breadcrumb.Item><Link to="/">首页</Link></Breadcrumb.Item>
-                {props.breadcrumb.routes.map((item: any) => <Breadcrumb.Item>
-                    <Link to={item.path}>{item.breadcrumbName}</Link>
-                </Breadcrumb.Item>)}
-            </Breadcrumb>
-        }}
+    // breadcrumbRender={(props: any) => {
+    //     return <Breadcrumb>
+    //         <Breadcrumb.Item><Link to="/">首页</Link></Breadcrumb.Item>
+    //         {props.breadcrumb.routes.map((item: any) => <Breadcrumb.Item>
+    //             <Link to={item.path}>{item.breadcrumbName}</Link>
+    //         </Breadcrumb.Item>)}
+    //     </Breadcrumb>
+    // }}
     >
         <ProTable
             size="large"
             columns={columns}
             options={false}
-            dataSource={[{ "createTime": "2020-08-06 23:19:24.000", "createUser": "1265476890672672808", "updateTime": null, "updateUser": null, "id": "1291393441594408961", "name": "是否结束", "code": "ended_status", "sort": 100, "remark": "是否结束", "status": 0 }, { "createTime": "2020-07-03 12:41:49.000", "createUser": "1265476890672672808", "updateTime": null, "updateUser": null, "id": "1278911800547147777", "name": "通知公告类型", "code": "notice_type", "sort": 100, "remark": "通知公告类型", "status": 0 }, { "createTime": "2020-05-27 10:28:45.000", "createUser": "1265476890672672808", "updateTime": null, "updateUser": null, "id": "1265469962873610241", "name": "事件类型", "code": "event_type", "sort": 100, "remark": "事件类型", "status": 0 }, { "createTime": "2020-05-27 10:27:43.000", "createUser": "1265476890672672808", "updateTime": null, "updateUser": null, "id": "1265469702042427393", "name": "表单类型", "code": "form_type", "sort": 100, "remark": "表单类型", "status": 0 }, { "createTime": "2020-05-27 10:21:04.000", "createUser": "1265476890672672808", "updateTime": null, "updateUser": null, "id": "1265468028632571905", "name": "数据范围类型", "code": "data_scope_type", "sort": 100, "remark": "数据范围类型", "status": 0 }, { "createTime": "2020-07-02 16:30:27.000", "createUser": "1265476890672672808", "updateTime": null, "updateUser": null, "id": "1278606951432855553", "name": "运行状态", "code": "run_status", "sort": 100, "remark": "定时任务运行状态", "status": 0 }, { "createTime": "2020-05-27 10:13:36.000", "createUser": "1265476890672672808", "updateTime": null, "updateUser": null, "id": "1265466149622128641", "name": "发送类型", "code": "send_type", "sort": 100, "remark": "发送类型", "status": 0 }, { "createTime": "2020-05-27 10:16:00.000", "createUser": "1265476890672672808", "updateTime": null, "updateUser": null, "id": "1265466752209395713", "name": "打开方式", "code": "open_type", "sort": 100, "remark": "打开方式", "status": 0 }, { "createTime": "2020-05-27 10:25:43.000", "createUser": "1265476890672672808", "updateTime": null, "updateUser": null, "id": "1265469198583341057", "name": "脚本类型", "code": "script_type", "sort": 100, "remark": "脚本类型", "status": 0 }, { "createTime": "2020-06-30 09:22:42.000", "createUser": "1265476890672672808", "updateTime": null, "updateUser": null, "id": "1277774529430654977", "name": "文件存储位置", "code": "file_storage_location", "sort": 100, "remark": "文件存储位置", "status": 0 }]}
-            // type="descriptions"
+            actionRef={actionRef}
+            request={async (
+                // 第一个参数 params 查询表单和 params 参数的结合
+                // 第一个参数中一定会有 pageSize 和  current ，这两个参数是 antd 的规范
+                params,
+                sort,
+                filter,
+            ) => {
+                // 这里需要返回一个 Promise,在返回之前你可以进行数据转化
+                // 如果需要转化参数可以在这里进行修改
+                const msg = await getPageList(params);
+                return {
+                    data: msg.data.data,
+                    // success 请返回 true，
+                    // 不然 table 会停止解析数据，即使有数据
+                    success: msg.data.success,
+                    // 不传会使用 data 的长度，如果是分页一定要传
+                    total: msg.data.total,
+                };
+            }}
             toolBarRender={() => [<Button key="button" icon={<PlusOutlined />} onClick={() => handleModalVisible(true)} type="primary">新增类型</Button>]}
-
-
         />
 
-        <DictManageForm onCancel={() => handleDictManageVisible(false)} modalVisible={dictManageVisible}>
-            <ProTable<any, any>
-
+        <DictManageForm onCancel={() => handleDictManageVisible(false)} id={row.id} modalVisible={dictManageVisible}>
+            {/* <ProTable<any, any>
                 onSubmit={async (value) => {
                     // const success = await handleAdd(value);
                     // if (success) {
@@ -157,22 +185,25 @@ const Dict: React.FunctionComponent<IDictProps> = (props) => {
                 rowKey="key"
 
                 options={false}
-                toolBarRender={() => [<Button key="button" icon={<PlusOutlined />} onClick={() => handleModalVisible(true)} type="primary">新建职位</Button>]}
+                toolBarRender={() => [<Button key="button" icon={<PlusOutlined />} onClick={() => handleModalVisible(true)} type="primary">22新建职位</Button>]}
                 columns={columns}
-            />
+            /> */}
         </DictManageForm>
 
         <CreateForm onCancel={() => handleModalVisible(false)} modalVisible={createModalVisible} onOk={() => createFormRef.current?.submit()}>
             <ProTable<any, any>
                 onSubmit={async (value) => {
                     console.log(value)
-                    // const success = await handleAdd(value);
-                    // if (success) {
-                    //   handleModalVisible(false);
-                    //   if (actionRef.current) {
-                    //     actionRef.current.reload();
-                    //   }
-                    // }
+                    const { data } = await add(value);
+                    if (data.success) {
+                        message.success("添加成功")
+                        handleModalVisible(false);
+                        if (actionRef.current) {
+                            actionRef.current.reload();
+                        }
+                    } else {
+                        message.error("添加成功")
+                    }
                 }}
 
                 formRef={createFormRef}
@@ -186,13 +217,17 @@ const Dict: React.FunctionComponent<IDictProps> = (props) => {
             <ProTable<any, any>
                 onSubmit={async (value) => {
                     console.log(value)
-                    // const success = await handleAdd(value);
-                    // if (success) {
-                    //   handleModalVisible(false);
-                    //   if (actionRef.current) {
-                    //     actionRef.current.reload();
-                    //   }
-                    // }
+                    const { data } = await update({ ...value, ...{ id: row.id } });
+
+                    if (data.success) {
+                        message.success("修改成功")
+                        handleUpdateModalVisible(false);
+                        if (actionRef.current) {
+                            actionRef.current.reload();
+                        }
+                    } else {
+                        message.error("修改失败")
+                    }
                 }}
 
                 formRef={updateFormRef}

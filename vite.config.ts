@@ -12,5 +12,15 @@ export default defineConfig({
       { find: /@\//, replacement: path.resolve(__dirname, 'src') }
     ]
   },
- 
+  server: {
+    proxy: {
+      '/free52':
+      {
+        target: 'http://47.106.251.106:8080/',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/free52/, '')
+      },
+    }
+  }
+
 })

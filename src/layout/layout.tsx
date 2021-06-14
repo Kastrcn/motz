@@ -12,6 +12,7 @@ import { Link, Route, useHistory } from 'react-router-dom'
 import { logout } from '../features/user/userSlice';
 import Authorized from '../component/Authorized';
 import { Action, ActionDiv } from './style';
+import { push } from 'connected-react-router';
 const menu = [defaultProps, homeProps, advancedProps];
 
 export default (props: any) => {
@@ -115,7 +116,10 @@ export default (props: any) => {
                 <Dropdown overlay={<Menu className="umi-plugin-layout-menu">
                   <Menu.Item
                     key="logout"
-                    onClick={() => { dispatch(logout()) }
+                    onClick={() => {
+                      dispatch(logout())
+                      dispatch(push("/login"))
+                    }
 
                     }
                   >

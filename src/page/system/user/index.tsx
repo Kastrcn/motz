@@ -168,6 +168,7 @@ const User: React.FunctionComponent<IUserProps> = (props) => {
         }, {
             title: '机构',
             dataIndex: 'date',
+            hideInForm:true,
             hideInTable: true,
             hideInSearch: true,
             formItemProps: {

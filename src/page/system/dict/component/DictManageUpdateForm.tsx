@@ -11,13 +11,12 @@ const UpdateForm: React.FunctionComponent<IUpdateFormProps> = (props) => {
   const { modalVisible, onOk,onCancel } = props;
 
   return   <Modal
-  destroyOnClose
-  title="用户增加"
+    destroyOnClose
+  title="修改字典类型"
   visible={modalVisible}
   onCancel={() => onCancel()}
   onOk={()=>onOk()}
   width={900}
-  footer={null}
 >
   {props.children}
 </Modal>;

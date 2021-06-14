@@ -1,12 +1,14 @@
-import ProTable, { ProColumns } from '@ant-design/pro-table';
-import { Button, Divider, FormInstance, Modal, Popconfirm } from 'antd';
+import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
+import { Button, Divider, FormInstance, message, Modal, Popconfirm } from 'antd';
 import * as React from 'react';
 import { PlusOutlined } from '@ant-design/icons'
 import { useRef, useState } from 'react';
 import DictManageCreateForm from './DictManageCreateForm';
 import DictManageUpdateForm from './DictManageUpdateForm';
+import { getDictPageList, ditcAdd, dictDel, dictUpdate } from '../api';
 
 interface ICreateFormProps {
+  id: number;
   modalVisible: boolean;
   onCancel: () => void;
 }
@@ -17,7 +19,21 @@ const CreateForm: React.FunctionComponent<ICreateFormProps> = (props) => {
   const [row, setRow] = useState({})
   const createFormRef = useRef<FormInstance>()
   const updateFormRef = useRef<FormInstance>()
+  const actionRef = useRef<ActionType>();
   const { modalVisible, onCancel } = props;
+
+  const deleteById = async (record: any) => {
+    const { data } = await dictDel({ id: record.id });
+    if (data.success) {
+      message.success("删除成功")
+      if (actionRef.current) {
+        actionRef.current.reload();
+      }
+    } else {
+      message.error("删除成功")
+    }
+  }
+
   const columns: ProColumns<any>[] = [
     {
       title: '序号',
@@ -28,7 +44,7 @@ const CreateForm: React.FunctionComponent<ICreateFormProps> = (props) => {
     },
     {
       title: '字典值',
-      dataIndex: 'value',
+      dataIndex: 'name',
 
       formItemProps: {
         rules: [{ required: true }]
@@ -45,6 +61,8 @@ const CreateForm: React.FunctionComponent<ICreateFormProps> = (props) => {
     {
       title: '排序',
       dataIndex: 'sort',
+      initialValue: 100,
+      valueType: 'digit',
       hideInSearch: true
     },
     {
@@ -58,14 +76,12 @@ const CreateForm: React.FunctionComponent<ICreateFormProps> = (props) => {
       dataIndex: 'status',
       hideInForm: true,
       hideInSearch: true,
-      render: (dom, record) => {
-        if (record.status === 0) {
-          return "正常"
-        } if (record.status === 1) {
-          return "错误"
-        }
-        return "未知"
-      }
+      valueType: 'select',
+      valueEnum: {
+        1: "启用",
+        0: "停用",
+      },
+
     },
 
     {
@@ -75,17 +91,17 @@ const CreateForm: React.FunctionComponent<ICreateFormProps> = (props) => {
       hideInSearch: true,
       hideInForm: true,
       render: (dom, record) => [
-        <a key="editable" onClick={() => { 
+        <a key="editable" onClick={() => {
 
           handleUpdateModalVisible(true);
           setRow(record);
         }}>
           编辑
-          </a>,
+        </a>,
         <Divider type="vertical" />,
-        <Popconfirm title="确认删除？" onConfirm={() => console.log(record)}>
-        <a key="editable">删除 </a>
-    </Popconfirm>
+        <Popconfirm title="确认删除？" onConfirm={() => deleteById(record)}>
+          <a key="editable">删除 </a>
+        </Popconfirm>
 
       ],
     },
@@ -95,18 +111,35 @@ const CreateForm: React.FunctionComponent<ICreateFormProps> = (props) => {
     title="字典值管理"
     visible={modalVisible}
     onCancel={() => onCancel()}
-    width={900}
-  // footer={null}
+    width={1200}
   >
     <ProTable<any, any>
-
-
       search={{ collapseRender: false }}
       form={{ layout: 'horizontal', labelCol: { span: 5 }, wrapperCol: { span: 15 }, }}
       rowKey="key"
       options={false}
-      dataSource={[{"createTime":"2020-08-06 23:20:41.000","createUser":"1265476890672672808","updateTime":null,"updateUser":null,"id":"1291393766048989186","typeId":"1291393441594408961","value":"否","code":"false","sort":100,"remark":"未结束","status":0},{"createTime":"2020-08-06 23:20:22.000","createUser":"1265476890672672808","updateTime":null,"updateUser":null,"id":"1291393684314587138","typeId":"1291393441594408961","value":"是","code":"true","sort":100,"remark":"已结束","status":0}]}
-    
+
+      request={async (
+        // 第一个参数 params 查询表单和 params 参数的结合
+        // 第一个参数中一定会有 pageSize 和  current ，这两个参数是 antd 的规范
+        params,
+        sort,
+        filter,
+      ) => {
+        // 这里需要返回一个 Promise,在返回之前你可以进行数据转化
+        // 如果需要转化参数可以在这里进行修改
+        const msg = await getDictPageList({ ...params, ...{ dictTypeId: props.id } });
+        return {
+          data: msg.data.data,
+          // success 请返回 true，
+          // 不然 table 会停止解析数据，即使有数据
+          success: msg.data.success,
+          // 不传会使用 data 的长度，如果是分页一定要传
+          total: msg.data.total,
+        };
+      }}
+      actionRef={actionRef}
+
       toolBarRender={() => [<Button key="button" icon={<PlusOutlined />} onClick={() => handleModalVisible(true)} type="primary">新增数据</Button>]}
       columns={columns}
     />
@@ -114,24 +147,27 @@ const CreateForm: React.FunctionComponent<ICreateFormProps> = (props) => {
       <ProTable<any, any>
 
         onSubmit={async (value) => {
-          console.log(value)
-          // const success = await handleAdd(value);
-          // if (success) {
-          //   handleModalVisible(false);
-          //   if (actionRef.current) {
-          //     actionRef.current.reload();
-          //   }
-          // }
+
+          const { data } = await ditcAdd({ ...value, ...{ dictTypeId: props.id } });
+          if (data.success) {
+            message.success("添加成功")
+            handleModalVisible(false);
+            if (actionRef.current) {
+              actionRef.current.reload();
+            }
+          } else {
+            message.error("添加成功")
+          }
         }}
         search={{ collapseRender: false }}
         formRef={createFormRef}
-        form={{ layout: 'horizontal', labelCol: { span: 5 }, wrapperCol: { span: 15 }, submitter:{render:false}}}
+        form={{ layout: 'horizontal', labelCol: { span: 5 }, wrapperCol: { span: 15 }, submitter: { render: false } }}
         rowKey="key"
         options={false}
         type="form"
         toolBarRender={() => [<Button key="button" icon={<PlusOutlined />} onClick={() => handleModalVisible(true)} type="primary">新增数据</Button>]}
         columns={columns}
-        
+
       />
     </DictManageCreateForm>
     <DictManageUpdateForm onCancel={() => handleUpdateModalVisible(false)} modalVisible={updateModalVisible} onOk={() => updateFormRef.current?.submit()}>
@@ -139,17 +175,29 @@ const CreateForm: React.FunctionComponent<ICreateFormProps> = (props) => {
 
         onSubmit={async (value) => {
           console.log(value)
-         
+          console.log(value)
+          const { data } = await dictUpdate({ ...value, ...{ id: row.id } });
+
+          if (data.success) {
+            message.success("修改成功")
+            handleUpdateModalVisible(false);
+            if (actionRef.current) {
+              actionRef.current.reload();
+            }
+          } else {
+            message.error("修改失败")
+          }
+
         }}
         search={{ collapseRender: false }}
         formRef={updateFormRef}
-        form={{ layout: 'horizontal', labelCol: { span: 5 }, wrapperCol: { span: 15 }, submitter:{render:false},initialValues:row}}
+        form={{ layout: 'horizontal', labelCol: { span: 5 }, wrapperCol: { span: 15 }, submitter: { render: false }, initialValues: row }}
         rowKey="key"
         options={false}
         type="form"
         toolBarRender={() => [<Button key="button" icon={<PlusOutlined />} onClick={() => handleModalVisible(true)} type="primary">新增数据</Button>]}
         columns={columns}
-        
+
       />
     </DictManageUpdateForm>
   </Modal>;

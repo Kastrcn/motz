@@ -3,17 +3,6 @@ import { notification } from 'antd';
 import { push } from 'connected-react-router'
 
 
-export const login = createAsyncThunk(
-  'account/login',
-  async (params:any) => {
-    if (params.password == "admin" && params.username == "admin") {
-      return true
-    } else {
-      return false;
-    }
-
-  }
-)
 export const logout= createAsyncThunk(
   'account/logout',
   async () => {
@@ -27,20 +16,21 @@ export const userSlice = createSlice({
     token: "",
   },
   reducers: {
+    login: (state,{payload}) => {
+      state.status = true;
+      state.token=payload.token;
+      localStorage.setItem("status","1");
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(login.fulfilled, (state, { payload }) => {
-      if(payload){
-        state.status = true;
-        localStorage.setItem("status", "1");
-      }
-    }).addCase(logout.fulfilled, (state, { payload }) => {
+    builder.addCase(logout.fulfilled, (state, { payload }) => {
       state.status = false;
       localStorage.removeItem("status");
     })
   },
 })
 
-// Action creators are generated for each case reducer function
+
+export const { login } = userSlice.actions
 
 export default userSlice.reducer
