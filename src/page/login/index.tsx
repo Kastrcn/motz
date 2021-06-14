@@ -54,7 +54,6 @@ const Login: React.FunctionComponent<ILoginProps> = (props) => {
                   '请输入正确的账号密码!',
               });
 
-              console.log(data.a)
               // dispatch(login(values)).then(({ payload }: any) => {
               //   if (payload) {
               //     notification['success']({
