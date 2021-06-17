@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite'
-import reactRefresh from '@vitejs/plugin-react-refresh'
-import path from 'path'
+import { defineConfig } from "vite";
+import reactRefresh from "@vitejs/plugin-react-refresh";
+import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -8,19 +8,17 @@ export default defineConfig({
   plugins: [reactRefresh()],
   resolve: {
     alias: [
-      { find: /^~/, replacement: '' },
-      { find: /@\//, replacement: path.resolve(__dirname, 'src') }
-    ]
+      { find: /^~/, replacement: "" },
+      { find: /@\//, replacement: path.resolve(__dirname, "src") },
+    ],
   },
   server: {
     proxy: {
-      '/free52':
-      {
-        target: 'http://47.106.251.106:8080/',
+      "/free52": {
+        target: "http://47.106.251.106:8080/",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/free52/, '')
+        rewrite: (path) => path.replace(/^\/free52/, ""),
       },
-    }
-  }
-
-})
+    },
+  },
+});

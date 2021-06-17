@@ -46,10 +46,6 @@
 // //   activitiesLoading: boolean;
 // // };
 
-
-
-
-
 // const PageHeaderContent: React.FC<{ currentUser: CurrentUser }> = ({ currentUser }) => {
 //   const loading = currentUser && Object.keys(currentUser).length;
 //   if (!loading) {
@@ -251,35 +247,31 @@
 // }
 // export default WorkPlace;
 
-
-import * as React from 'react';
-import { useSelector, useDispatch } from 'react-redux'
-import { decrement, login } from '../../../features/counter/counterSlice'
-interface IWorkPlaceProps {
-}
+import * as React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { decrement, login } from "../../../features/counter/counterSlice";
+interface IWorkPlaceProps {}
 
 const WorkPlace: React.FunctionComponent<IWorkPlaceProps> = (props) => {
-  const count = useSelector((state: any) => state.counter.value)
-  const dispatch = useDispatch()
+  const count = useSelector((state: any) => state.counter.value);
+  const dispatch = useDispatch();
 
-  return <div>
+  return (
     <div>
-      <button
-        aria-label="Increment value"
-        onClick={() => {
-        }}
-      >
-        Increment
-    </button>
-      <span>{count}</span>
-      <button
-        aria-label="Decrement value"
-        onClick={() => dispatch(decrement())}
-      >
-        Decrement
-    </button>
+      <div>
+        <button aria-label="Increment value" onClick={() => {}}>
+          Increment
+        </button>
+        <span>{count}</span>
+        <button
+          aria-label="Decrement value"
+          onClick={() => dispatch(decrement())}
+        >
+          Decrement
+        </button>
+      </div>
     </div>
-  </div>;
+  );
 };
 
 export default WorkPlace;

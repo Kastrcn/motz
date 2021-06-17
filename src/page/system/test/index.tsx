@@ -1,15 +1,16 @@
-import ProTable from '@ant-design/pro-table';
-import { Switch } from 'antd';
-import * as React from 'react';
+import ProTable from "@ant-design/pro-table";
+import { Switch } from "antd";
+import * as React from "react";
 
-interface ITestProps {
-}
+interface ITestProps {}
 
 const Test: React.FunctionComponent<ITestProps> = (props) => {
-  return <div>
-      <Switch/>
-      <ProTable/>
-  </div>;
+  return (
+    <div>
+      <Switch />
+      <ProTable />
+    </div>
+  );
 };
 
 export default Test;

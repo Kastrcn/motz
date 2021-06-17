@@ -1,5 +1,5 @@
-import { Modal } from 'antd';
-import * as React from 'react';
+import { Modal } from "antd";
+import * as React from "react";
 
 interface ICreateFormProps {
   modalVisible: boolean;
@@ -7,18 +7,20 @@ interface ICreateFormProps {
 }
 
 const CreateForm: React.FunctionComponent<ICreateFormProps> = (props) => {
-  const { modalVisible,onCancel } = props;
+  const { modalVisible, onCancel } = props;
 
-  return   <Modal
-  destroyOnClose
-  title="文件信息详情"
-  visible={modalVisible}
-  onCancel={() => onCancel()}
-  width={900}
-  footer={null}
->
-  {props.children}
-</Modal>;
+  return (
+    <Modal
+      destroyOnClose
+      title="文件信息详情"
+      visible={modalVisible}
+      onCancel={() => onCancel()}
+      width={900}
+      footer={null}
+    >
+      {props.children}
+    </Modal>
+  );
 };
 
 export default CreateForm;

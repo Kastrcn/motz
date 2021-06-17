@@ -11,18 +11,16 @@
 
 // export default connect(store => ({ userInfo: store.common.userInfo }))(Authorized);
 
-
-import * as React from 'react';
-import { useSelector, useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom';
-import { login } from '../../features/user/userSlice';
-interface IAuthorizedProps {
-}
+import * as React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { login } from "../../features/user/userSlice";
+interface IAuthorizedProps {}
 
 const Authorized: React.FunctionComponent<IAuthorizedProps> = (props) => {
-  const status = useSelector((state: any) => state.user.status)
+  const status = useSelector((state: any) => state.user.status);
   const dispatch = useDispatch();
-  let history = useHistory()
+  let history = useHistory();
   if (status === false) {
     let s = localStorage.getItem("status");
     if (s === "1") {

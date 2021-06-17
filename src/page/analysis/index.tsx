@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import ProCard, { StatisticCard } from '@ant-design/pro-card';
-import RcResizeObserver from 'rc-resize-observer';
+import React, { useState } from "react";
+import ProCard, { StatisticCard } from "@ant-design/pro-card";
+import RcResizeObserver from "rc-resize-observer";
 const { Statistic } = StatisticCard;
 
 interface IAnalysisProps {}
 const imgStyle = {
-  display: 'block',
+  display: "block",
   width: 42,
   height: 42,
 };
@@ -21,10 +21,10 @@ const Analysis: React.FunctionComponent<IAnalysisProps> = (props) => {
           setResponsive(offset.width < 596);
         }}
       >
-        <StatisticCard.Group direction={responsive ? 'column' : 'row'}>
+        <StatisticCard.Group direction={responsive ? "column" : "row"}>
           <StatisticCard
             statistic={{
-              title: '支付金额',
+              title: "支付金额",
               value: 2176,
               icon: (
                 <img
@@ -37,7 +37,7 @@ const Analysis: React.FunctionComponent<IAnalysisProps> = (props) => {
           />
           <StatisticCard
             statistic={{
-              title: '访客数',
+              title: "访客数",
               value: 475,
               icon: (
                 <img
@@ -50,7 +50,7 @@ const Analysis: React.FunctionComponent<IAnalysisProps> = (props) => {
           />
           <StatisticCard
             statistic={{
-              title: '支付成功订单数',
+              title: "支付成功订单数",
               value: 87,
               icon: (
                 <img
@@ -63,7 +63,7 @@ const Analysis: React.FunctionComponent<IAnalysisProps> = (props) => {
           />
           <StatisticCard
             statistic={{
-              title: '浏览量',
+              title: "浏览量",
               value: 1754,
               icon: (
                 <img
@@ -83,13 +83,13 @@ const Analysis: React.FunctionComponent<IAnalysisProps> = (props) => {
           setResponsive(offset.width < 596);
         }}
       >
-        <ProCard split={responsive ? 'horizontal' : 'vertical'}>
+        <ProCard split={responsive ? "horizontal" : "vertical"}>
           <StatisticCard
             colSpan={responsive ? 24 : 6}
             title="财年业绩目标"
             statistic={{
               value: 82.6,
-              suffix: '亿',
+              suffix: "亿",
               description: (
                 <Statistic title="日同比" value="6.47%" trend="up" />
               ),
@@ -123,11 +123,11 @@ const Analysis: React.FunctionComponent<IAnalysisProps> = (props) => {
           />
           <StatisticCard.Group
             colSpan={responsive ? 24 : 18}
-            direction={responsive ? 'column' : undefined}
+            direction={responsive ? "column" : undefined}
           >
             <StatisticCard
               statistic={{
-                title: '财年总收入',
+                title: "财年总收入",
                 value: 601987768,
                 description: (
                   <Statistic title="日同比" value="6.15%" trend="up" />
@@ -152,7 +152,7 @@ const Analysis: React.FunctionComponent<IAnalysisProps> = (props) => {
             </StatisticCard>
             <StatisticCard
               statistic={{
-                title: '当日排名',
+                title: "当日排名",
                 value: 6,
                 description: (
                   <Statistic title="日同比" value="3.85%" trend="down" />
@@ -177,7 +177,7 @@ const Analysis: React.FunctionComponent<IAnalysisProps> = (props) => {
             </StatisticCard>
             <StatisticCard
               statistic={{
-                title: '财年业绩收入排名',
+                title: "财年业绩收入排名",
                 value: 2,
                 description: (
                   <Statistic title="日同比" value="6.47%" trend="up" />
@@ -213,7 +213,7 @@ const Analysis: React.FunctionComponent<IAnalysisProps> = (props) => {
         <ProCard
           title="数据概览"
           extra="2019年9月28日 星期五"
-          split={responsive ? 'horizontal' : 'vertical'}
+          split={responsive ? "horizontal" : "vertical"}
           headerBordered
           bordered
         >
@@ -222,7 +222,7 @@ const Analysis: React.FunctionComponent<IAnalysisProps> = (props) => {
               <ProCard split="vertical">
                 <StatisticCard
                   statistic={{
-                    title: '昨日全部流量',
+                    title: "昨日全部流量",
                     value: 234,
                     description: (
                       <Statistic
@@ -235,7 +235,7 @@ const Analysis: React.FunctionComponent<IAnalysisProps> = (props) => {
                 />
                 <StatisticCard
                   statistic={{
-                    title: '本月累计流量',
+                    title: "本月累计流量",
                     value: 234,
                     description: (
                       <Statistic title="月同比" value="8.04%" trend="up" />
@@ -246,16 +246,16 @@ const Analysis: React.FunctionComponent<IAnalysisProps> = (props) => {
               <ProCard split="vertical">
                 <StatisticCard
                   statistic={{
-                    title: '运行中实验',
-                    value: '12/56',
-                    suffix: '个',
+                    title: "运行中实验",
+                    value: "12/56",
+                    suffix: "个",
                   }}
                 />
                 <StatisticCard
                   statistic={{
-                    title: '历史实验总数',
-                    value: '134',
-                    suffix: '个',
+                    title: "历史实验总数",
+                    value: "134",
+                    suffix: "个",
                   }}
                 />
               </ProCard>

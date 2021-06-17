@@ -1,5 +1,5 @@
-import { Modal } from 'antd';
-import * as React from 'react';
+import { Modal } from "antd";
+import * as React from "react";
 
 interface IUpdateFormProps {
   modalVisible: boolean;
@@ -9,15 +9,17 @@ interface IUpdateFormProps {
 const UpdateForm: React.FunctionComponent<IUpdateFormProps> = (props) => {
   const { modalVisible, onCancel } = props;
 
-  return   <Modal
-  destroyOnClose
-  title="用户增加"
-  visible={modalVisible}
-  onCancel={() => onCancel()}
-  footer={null}
->
-  {props.children}
-</Modal>;
+  return (
+    <Modal
+      destroyOnClose
+      title="用户增加"
+      visible={modalVisible}
+      onCancel={() => onCancel()}
+      footer={null}
+    >
+      {props.children}
+    </Modal>
+  );
 };
 
 export default UpdateForm;

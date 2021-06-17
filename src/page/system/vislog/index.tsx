@@ -1,46 +1,46 @@
-import { PageContainer } from '@ant-design/pro-layout';
-import ProTable, { ProColumns } from '@ant-design/pro-table';
-import * as React from 'react';
+import { PageContainer } from "@ant-design/pro-layout";
+import ProTable, { ProColumns } from "@ant-design/pro-table";
+import * as React from "react";
 
 interface ISysMenuListProps {}
 
 const VisLog: React.FunctionComponent<ISysMenuListProps> = (props) => {
   const columns: ProColumns<any>[] = [
     {
-      title: 'id',
-      dataIndex: 'id',
+      title: "id",
+      dataIndex: "id",
       search: false,
     },
     {
-      title: 'ip',
-      dataIndex: 'ip',
+      title: "ip",
+      dataIndex: "ip",
     },
     {
-      title: '系统',
-      dataIndex: 'osName',
+      title: "系统",
+      dataIndex: "osName",
     },
 
     {
-      title: '浏览器',
-      dataIndex: 'browserName',
+      title: "浏览器",
+      dataIndex: "browserName",
     },
     {
-      title: '浏览器版本号',
-      dataIndex: 'browserVersion',
+      title: "浏览器版本号",
+      dataIndex: "browserVersion",
     },
     {
-      title: 'userAgent',
-      dataIndex: 'userAgent',
+      title: "userAgent",
+      dataIndex: "userAgent",
       width: 300,
     },
     {
-      title: '状态码',
-      dataIndex: 'code',
+      title: "状态码",
+      dataIndex: "code",
     },
 
     {
-      title: '创建时间',
-      dataIndex: 'createTime',
+      title: "创建时间",
+      dataIndex: "createTime",
       hideInForm: true,
       search: false,
     },
@@ -48,7 +48,7 @@ const VisLog: React.FunctionComponent<ISysMenuListProps> = (props) => {
   return (
     <PageContainer>
       <ProTable
-        headerTitle={'登录日志'}
+        headerTitle={"登录日志"}
         search={{
           labelWidth: 120,
         }}

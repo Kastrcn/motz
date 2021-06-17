@@ -1,8 +1,3 @@
-
-export const getTodos = () => {
-
-}
-
+export const getTodos = () => {};
 
 // import { getTodos, postTodo } from '../my-api'
-
